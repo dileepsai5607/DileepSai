@@ -2,7 +2,7 @@
 
 Personal portfolio of **L Dileep Sai** (Dileep Sai Lavu), cybersecurity researcher and Cybersecurity Analyst Intern at XSignOn.
 
-**Live site:** https://dileepsailavu.github.io/portfolio/
+**Live site:** https://dileepsai5607.github.io/portfolio/
 
 ## About me
 
@@ -62,7 +62,7 @@ README.md
 No installation needed. Clone the repo and open `index.html` in a browser:
 
 ```bash
-git clone https://github.com/DileepSaiLavu/portfolio.git
+git clone https://github.com/dileepsai5607/portfolio.git
 cd portfolio
 ```
 
@@ -77,7 +77,7 @@ python3 -m http.server 8000
 
 - Email: dileep_lavu@srmap.edu.in
 - LinkedIn: https://www.linkedin.com/in/dileep-sai-ab5607cde/
-- GitHub: https://github.com/DileepSaiLavu
+- GitHub: https://github.com/dileepsai5607
 
 ## License
 
