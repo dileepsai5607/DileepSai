@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Spidey Admin Console</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff1e2d'/%3E%3Ccircle cx='16' cy='18' r='5' fill='%230a0404'/%3E%3Ccircle cx='16' cy='11' r='3' fill='%230a0404'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap">
+<style>
+:root { --bg: #0a0404; --red: #ff1e2d; --fg: #f4eded; --muted: #b3a5a5; --dim: #7a6a6a; --line: rgba(255,255,255,.09); --line-red: rgba(255,30,45,.3); --green: #3ee08a;
+  --f-body: "Outfit", system-ui, sans-serif; --f-head: "Bebas Neue", Impact, sans-serif; --f-code: "Fira Code", ui-monospace, monospace; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 80% 0%, #2a0709, var(--bg) 60%) fixed, var(--bg); color: var(--fg); font: 400 15px/1.55 var(--f-body); }
+a { color: inherit; }
+button, input, textarea, select { font: inherit; color: inherit; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 80px; }
+header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-radius: 20px; border: 1px solid var(--line); background: rgba(26,12,12,.6); backdrop-filter: blur(14px); position: sticky; top: 12px; z-index: 5; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand .lg { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(135deg, var(--red), #7a0610); box-shadow: 0 0 20px rgba(255,30,45,.4); }
+.brand .lg svg { width: 24px; height: 24px; }
+.brand h1 { margin: 0; font: 400 1.8rem/1 var(--f-head); letter-spacing: .04em; }
+.brand small { display: block; font: 400 .72rem var(--f-code); color: var(--dim); }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.04); cursor: pointer; font-size: .88rem; text-decoration: none; transition: all .25s; white-space: nowrap; }
+.btn:hover { border-color: rgba(255,255,255,.35); }
+.btn.red { background: linear-gradient(135deg, var(--red), #a00a15); border-color: transparent; color: #fff; box-shadow: 0 8px 24px rgba(255,30,45,.3); }
+.btn.sm { padding: 6px 12px; font-size: .78rem; }
+.btn.ghost-red { border-color: var(--line-red); color: #ff8a92; }
+.info { margin: 18px 0; padding: 14px 18px; border-radius: 16px; border: 1px dashed var(--line-red); background: rgba(255,30,45,.06); font-size: .9rem; color: #e6d6d6; }
+.info b { color: #fff; }
+.info ol { margin: 6px 0 0; padding-left: 20px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 5px; border-radius: 999px; border: 1px solid var(--line); background: rgba(26,12,12,.6); width: max-content; max-width: 100%; margin: 6px 0 18px; }
+.tabs button { border: 0; background: none; padding: 8px 16px; border-radius: 999px; cursor: pointer; color: var(--muted); }
+.tabs button.on { background: var(--red); color: #fff; }
+.panel { display: none; }
+.panel.on { display: block; }
+.card { padding: 22px; border-radius: 20px; border: 1px solid var(--line); background: linear-gradient(160deg, rgba(36,14,14,.65), rgba(14,6,6,.65)); margin-bottom: 16px; }
+.card h2 { margin: 0 0 14px; font: 400 1.5rem/1 var(--f-head); letter-spacing: .04em; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.full { grid-column: 1 / -1; }
+label { display: grid; gap: 6px; font: 400 .7rem var(--f-code); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+label i { font-style: normal; text-transform: none; letter-spacing: 0; color: var(--dim); font-family: var(--f-body); font-size: .78rem; }
+input, textarea, select { width: 100%; padding: 11px 13px; border-radius: 12px; border: 1px solid var(--line); background: rgba(10,4,4,.7); font-size: .95rem; text-transform: none; letter-spacing: 0; font-family: var(--f-body); }
+textarea { resize: vertical; min-height: 80px; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: rgba(255,30,45,.6); box-shadow: 0 0 0 3px rgba(255,30,45,.12); }
+.row { position: relative; padding: 16px; border-radius: 16px; border: 1px solid var(--line); background: rgba(10,4,4,.45); margin-top: 12px; }
+.row .rm { position: absolute; top: 12px; right: 12px; }
+.chk { display: flex; align-items: center; gap: 8px; text-transform: none; letter-spacing: 0; font: 400 .9rem var(--f-body); color: var(--fg); }
+.chk input { width: auto; }
+#json { font: 400 .82rem/1.5 var(--f-code); min-height: 60vh; white-space: pre; }
+.st { font: 400 .75rem var(--f-code); color: var(--dim); }
+.st.ok { color: var(--green); } .st.bad { color: #ff6b75; }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 16px); opacity: 0; padding: 12px 18px; border-radius: 999px; background: #1c0b0b; border: 1px solid var(--line-red); transition: all .3s; pointer-events: none; z-index: 10; max-width: calc(100% - 32px); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } header { position: static; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"><ellipse cx="12" cy="14" rx="3" ry="4" fill="#fff"/><circle cx="12" cy="8.6" r="2" fill="#fff"/><path d="M9.5 12 5 9 3 4M9.3 14H4l-2 3M9.6 16 6 19l-1 3M14.5 12 19 9l2-5M14.7 14H20l2 3M14.4 16l3.6 3 1 3"/></svg></span>
+      <div><h1>Spidey Admin Console</h1><small id="status">loading…</small></div></div>
+    <div class="acts">
+      <a class="btn" href="index.html">← Site</a>
+      <button class="btn" id="b-save">Save draft</button>
+      <button class="btn" id="b-preview">Preview</button>
+      <button class="btn red" id="b-export">Export data.js</button>
+    </div>
+  </header>
+
+  <div class="info">
+    <b>How publishing works.</b> This page runs only in your browser — it can't change the live site by itself.
+    <ol>
+      <li>Edit below and press <b>Preview</b> to see the site with your changes (only you see this).</li>
+      <li>Press <b>Export data.js</b> to download the updated content file.</li>
+      <li>On GitHub, open <code>assets/</code> in the portfolio repo, choose <b>Add file → Upload files</b>, upload <code>data.js</code> and commit. The live site updates in a minute or two.</li>
+    </ol>
+    To add a CV, upload the PDF to <code>assets/</code> first (for example <code>assets/resume.pdf</code>) and put that path in the Resume field.
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="on" data-p="profile">Profile</button>
+    <button data-p="links">Links &amp; CV</button>
+    <button data-p="projects">Projects</button>
+    <button data-p="papers">Papers</button>
+    <button data-p="raw">Advanced (JSON)</button>
+  </div>
+
+  <section class="panel on" id="p-profile">
+    <div class="card"><h2>Identity</h2>
+      <div class="grid">
+        <label>Display name<input data-f="profile.name"></label>
+        <label>Full name (signature)<input data-f="profile.fullName"></label>
+        <label>Hero line 1<input data-f="profile.first"></label>
+        <label>Hero line 2 (outlined)<input data-f="profile.last"></label>
+        <label>Greeting<input data-f="profile.greeting"></label>
+        <label>Tagline<input data-f="profile.tagline"></label>
+        <label class="full">Roles <i>— one per line; the first also appears on the ID card</i><textarea data-f="profile.roles" data-list rows="4"></textarea></label>
+        <label class="full">Bio<textarea data-f="profile.bio" rows="4"></textarea></label>
+        <label class="full">Hero highlight card<textarea data-f="profile.highlight" rows="2"></textarea></label>
+        <label class="full">Mission quote (Skills section)<textarea data-f="profile.mission" rows="3"></textarea></label>
+        <label>ID card role (script text)<input data-f="profile.cardRole"></label>
+        <label>Rotating badge text<input data-f="profile.ringText"></label>
+      </div></div>
+    <div class="card"><h2>Details</h2>
+      <div class="grid">
+        <label>Location<input data-f="profile.location"></label>
+        <label>Availability<input data-f="profile.availability"></label>
+        <label>Email<input data-f="profile.email" type="email"></label>
+        <label>Photo path<input data-f="profile.avatar"></label>
+        <label>ID card number<input data-f="profile.idNumber"></label>
+        <label>Organisation (ID card)<input data-f="profile.org"></label>
+      </div></div>
+  </section>
+
+  <section class="panel" id="p-links">
+    <div class="card"><h2>Social links <i class="st">empty links are hidden from the dock</i></h2>
+      <div class="grid">
+        <label>GitHub<input data-f="socials.github" placeholder="https://github.com/…"></label>
+        <label>LinkedIn<input data-f="socials.linkedin" placeholder="https://linkedin.com/in/…"></label>
+        <label>Instagram<input data-f="socials.instagram" placeholder="https://instagram.com/…"></label>
+        <label>Resume / CV <i>— path or URL, e.g. assets/resume.pdf</i><input data-f="profile.resume"></label>
+      </div></div>
+  </section>
+
+  <section class="panel" id="p-projects">
+    <div class="card"><h2>Open-source projects <button class="btn sm" id="add-repo">+ Add project</button></h2>
+      <div id="repos"></div></div>
+  </section>
+
+  <section class="panel" id="p-papers">
+    <div class="card"><h2>Research papers</h2>
+      <p class="st" style="margin-top:-6px">Tick “Published” only once a paper is out — that unlocks the full-paper reader (page images in assets/papers/&lt;id&gt;/).</p>
+      <div id="papers"></div></div>
+  </section>
+
+  <section class="panel" id="p-raw">
+    <div class="card"><h2>Everything as JSON <span><button class="btn sm" id="b-apply">Apply JSON</button> <button class="btn sm" id="b-copy">Copy</button></span></h2>
+      <p class="st" style="margin-top:-6px">Edit services, skills, experience, gallery, stats and certificates here. Press Apply JSON to load your edits into the forms.</p>
+      <textarea id="json" spellcheck="false"></textarea>
+      <div class="st" id="json-st"></div></div>
+    <div class="card"><h2>Reset</h2>
+      <p class="st">Throw away your local draft and reload the content currently published in assets/data.js.</p>
+      <button class="btn ghost-red" id="b-reset" style="margin-top:10px">Discard draft</button></div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/data.js"></script>
+<script>
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const KEY = 'spidey-draft';
+const clone = o => JSON.parse(JSON.stringify(o));
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let D, dirty = false;
+try { const d = localStorage.getItem(KEY); D = d ? JSON.parse(d) : clone(window.SITE); setStatus(d ? 'editing saved draft' : 'editing published content', d ? 'ok' : ''); }
+catch (e) { D = clone(window.SITE); setStatus('editing published content'); }
+
+function setStatus(t, cls) { const s = $('#status'); s.textContent = t; s.className = cls || ''; }
+let tt; function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 2400); }
+const get = (o, p) => p.split('.').reduce((a, k) => a && a[k], o);
+const set = (o, p, v) => { const ks = p.split('.'), last = ks.pop(); ks.reduce((a, k) => a[k] = a[k] || {}, o)[last] = v; };
+
+/* simple fields */
+function fill() {
+  $$('[data-f]').forEach(el => { const v = get(D, el.dataset.f); el.value = el.hasAttribute('data-list') ? (v || []).join('\n') : (v ?? ''); });
+  renderRepos(); renderPapers(); $('#json').value = JSON.stringify(D, null, 2);
+}
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.dataset.f) set(D, el.dataset.f, el.hasAttribute('data-list') ? el.value.split('\n').map(s => s.trim()).filter(Boolean) : el.value);
+  if (el.dataset.repo) D.repos[+el.dataset.i][el.dataset.repo] = el.value;
+  if (el.dataset.paper) D.papers[+el.dataset.i][el.dataset.paper] = el.type === 'checkbox' ? el.checked : el.value;
+  if (el.id !== 'json') { dirty = true; setStatus('unsaved changes', 'bad'); $('#json').value = JSON.stringify(D, null, 2); }
+});
+
+function renderRepos() {
+  $('#repos').innerHTML = D.repos.map((r, i) => `<div class="row"><button class="btn sm ghost-red rm" data-rm="${i}">Remove</button>
+    <div class="grid"><label>Name<input data-repo="name" data-i="${i}" value="${esc(r.name)}"></label><label>Language<input data-repo="lang" data-i="${i}" value="${esc(r.lang)}"></label>
+    <label class="full">Link<input data-repo="url" data-i="${i}" value="${esc(r.url)}"></label>
+    <label class="full">Description<textarea data-repo="text" data-i="${i}" rows="2">${esc(r.text)}</textarea></label></div></div>`).join('');
+}
+function renderPapers() {
+  $('#papers').innerHTML = D.papers.map((p, i) => `<div class="row"><div class="grid">
+    <label class="full">Title<input data-paper="title" data-i="${i}" value="${esc(p.title)}"></label>
+    <label>Status<input data-paper="status" data-i="${i}" value="${esc(p.status)}"></label>
+    <label>Page count<input data-paper="pages" data-i="${i}" type="number" min="1" value="${esc(p.pages)}"></label>
+    <label class="chk full"><input type="checkbox" data-paper="published" data-i="${i}" ${p.published ? 'checked' : ''}>Published — show the full paper on the site</label></div></div>`).join('');
+}
+$('#add-repo').onclick = () => { D.repos.push({ name: 'New project', text: '', lang: '', url: 'https://github.com/' }); dirty = true; setStatus('unsaved changes', 'bad'); fill(); };
+$('#repos').addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b) return; D.repos.splice(+b.dataset.rm, 1); dirty = true; setStatus('unsaved changes', 'bad'); fill(); });
+document.addEventListener('change', e => { if (e.target.dataset.paper === 'pages') D.papers[+e.target.dataset.i].pages = parseInt(e.target.value, 10) || 1; });
+
+/* tabs */
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+  $$('#tabs button').forEach(x => x.classList.toggle('on', x === b)); $$('.panel').forEach(p => p.classList.toggle('on', p.id === 'p-' + b.dataset.p));
+  if (b.dataset.p === 'raw') $('#json').value = JSON.stringify(D, null, 2); });
+
+/* actions */
+function save() { try { localStorage.setItem(KEY, JSON.stringify(D)); dirty = false; setStatus('draft saved in this browser', 'ok'); return true; } catch (e) { toast('Could not save in this browser (storage blocked).'); return false; } }
+$('#b-save').onclick = () => { if (save()) toast('Draft saved'); };
+$('#b-preview').onclick = () => { if (save()) window.open('index.html?preview=1', '_blank'); };
+$('#b-export').onclick = () => {
+  const head = '/* =========================================================================\n   SITE CONTENT — exported from spidey.html on ' + new Date().toISOString().slice(0, 10) + '.\n   Upload this file to assets/data.js in the repo to publish.\n   ========================================================================= */\n';
+  const blob = new Blob([head + 'window.SITE = ' + JSON.stringify(D, null, 2) + ';\n'], { type: 'text/javascript' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'data.js'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  save(); toast('data.js downloaded — upload it to assets/ on GitHub');
+};
+$('#b-apply').onclick = () => { try { D = JSON.parse($('#json').value); fill(); $('#json-st').textContent = 'Applied.'; $('#json-st').className = 'st ok'; dirty = true; setStatus('unsaved changes', 'bad'); }
+  catch (e) { $('#json-st').textContent = 'Invalid JSON: ' + e.message; $('#json-st').className = 'st bad'; } };
+$('#b-copy').onclick = () => { navigator.clipboard && navigator.clipboard.writeText($('#json').value).then(() => toast('JSON copied'), () => toast('Copy failed')); };
+$('#b-reset').onclick = () => { try { localStorage.removeItem(KEY); } catch (e) {} D = clone(window.SITE); fill(); dirty = false; setStatus('editing published content'); toast('Draft discarded'); };
+addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+fill();
+</script>
+</body>
+</html>
