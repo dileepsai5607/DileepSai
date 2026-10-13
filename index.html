@@ -1073,7 +1073,9 @@ $('#dock').innerHTML = dockItems.map(d => `<a href="${esc(d[2])}" ${d[2].startsW
 })();
 
 /* ---------- broken-image fallbacks ---------- */
-function markMissing(img) { const box = img.closest('.gi, .fr, .ph') || img.parentElement; if (box) box.classList.add('miss'); if (box && box.matches('.gi')) { box.removeAttribute('data-gal'); box.removeAttribute('data-cursor'); box.removeAttribute('role'); box.removeAttribute('tabindex'); } }
+function markMissing(img) {
+  /* cover photo: if assets/cover.jpg is missing, fall back to the profile photo before giving up */
+  if (img.id === 'h-photo') { const n = +(img.dataset.err || 0) + 1; img.dataset.err = n; if (n === 1 && P.cover && P.cover !== P.avatar) { img.src = P.avatar; return; } } const box = img.closest('.gi, .fr, .ph') || img.parentElement; if (box) box.classList.add('miss'); if (box && box.matches('.gi')) { box.removeAttribute('data-gal'); box.removeAttribute('data-cursor'); box.removeAttribute('role'); box.removeAttribute('tabindex'); } }
 $$('img').forEach(img => { if (img.complete && img.src && !img.naturalWidth) markMissing(img); img.addEventListener('error', () => markMissing(img)); });
 
 /* ---------- custom animated cursor ---------- */
